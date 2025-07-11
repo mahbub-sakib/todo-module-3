@@ -7,6 +7,7 @@ import { useAppSelector } from '@/redux/hook';
 
 const TodoContainer = () => {
     const { todos } = useAppSelector((state) => state.todos)
+
     return (
         <div>
             <div className='flex justify-between mb-5'>
@@ -20,7 +21,7 @@ const TodoContainer = () => {
                     {/* <TodoCard></TodoCard>
                     <TodoCard></TodoCard>
                     <TodoCard></TodoCard> */}
-                    {todos.map((item) => (<TodoCard {...item}></TodoCard>))}
+                    {todos.map((item) => (<TodoCard {...item} ></TodoCard>))}
                 </div>
 
                 {/* <div className='bg-white text-2xl font-bold p-5 flex justify-center items-center rounded-md'>
