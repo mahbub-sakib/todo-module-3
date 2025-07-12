@@ -4,9 +4,19 @@ import { Button } from '../ui/button';
 import AddTodoModal from './AddTodoModal';
 import TodoFilter from './TodoFilter';
 import { useAppSelector } from '@/redux/hook';
+import { useGetTodosQuery } from '@/redux/api/api';
 
 const TodoContainer = () => {
-    const { todos } = useAppSelector((state) => state.todos)
+    // from local state
+    // const { todos } = useAppSelector((state) => state.todos)
+
+    // from server state
+    const { data: todos, isLoading, isError } = useGetTodosQuery(undefined);
+
+    console.log(todos);
+    if (isLoading) {
+        return <p>Loading .....</p>
+    }
 
     return (
         <div>
