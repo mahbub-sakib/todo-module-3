@@ -7,7 +7,7 @@ export const baseApi = createApi({
     endpoints: (builder) => ({
         getTodos: builder.query({
             query: () => ({
-                url: '/posts',
+                url: '/todos',
                 method: 'GET',
             }),
         }),
