@@ -3,13 +3,33 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://6873bdc6c75558e273551908.mockapi.io/' }),
+    tagTypes: ['todo'],
     endpoints: (builder) => ({
         getTodos: builder.query({
-            query: () => ({
-                url: '/todos',
-                method: 'GET',
-            }),
+            query: (priority) => {
+                const params = new URLSearchParams();
+                if (priority) {
+                    params.append('priority', priority);
+                }
+                return {
+                    url: `/tasks`,
+                    method: 'GET',
+                    params: params
+                }
+            },
+            providesTags: ['todo'],
+        }),
+        addTodo: builder.mutation({
+            query: (data) => {
+                console.log('inside base api ', data);
+                return {
+                    url: '/tasks',
+                    method: 'POST',
+                    body: data,
+                }
+            },
+            invalidatesTags: ['todo'],
         }),
     }),
     // endpoints: (build) => ({
@@ -19,4 +39,4 @@ export const baseApi = createApi({
     // }),
 })
 
-export const { useGetTodosQuery } = baseApi
+export const { useGetTodosQuery, useAddTodoMutation } = baseApi

@@ -8,11 +8,11 @@ type TTodoCardProps = {
     id: string,
     title: string,
     description: string,
-    // isCompleted?: boolean
-    completed?: boolean
+    isCompleted?: boolean
+    // completed?: boolean
 }
 
-const TodoCard = ({ id, title, description, completed }: TTodoCardProps) => {
+const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
 
@@ -27,14 +27,14 @@ const TodoCard = ({ id, title, description, completed }: TTodoCardProps) => {
             <div className='flex-1 flex items-center gap-2'>
                 <div className={`
                     size-3 rounded-full
-                    ${completed == true ? 'bg-green-500' : null}
-                    ${completed == false ? 'bg-red-500' : null}
+                    ${isCompleted == true ? 'bg-green-500' : null}
+                    ${isCompleted == false ? 'bg-red-500' : null}
                     `}>
                 </div>
                 <p>Priority</p>
             </div>
             <div className='flex-1'>
-                {completed ? <p className='text-green-500'>Done</p> : <p className='text-red-500'>Pending</p>}
+                {isCompleted ? <p className='text-green-500'>Done</p> : <p className='text-red-500'>Pending</p>}
             </div>
             <p className='flex-[2]'>{description}</p>
             <div className='space-x-5'>

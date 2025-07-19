@@ -5,13 +5,21 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { addTodo } from '@/redux/features/todoSlice';
+import { useAddTodoMutation } from '@/redux/api/api';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select';
 
 const AddTodoModal = () => {
 
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
-    const dispatch = useAppDispatch();
+    const [priority, setPriority] = useState('');
+    // for local state management
+    // const dispatch = useAppDispatch();
+    console.log(priority);
+    // for server
+    const [addTodo, { data, isLoading, isSuccess, isError }] = useAddTodoMutation();
 
+    console.log({ data, isLoading, isSuccess, isError });
 
     const onSubmit = (e: FormEvent) => {
         e.preventDefault();
@@ -23,9 +31,15 @@ const AddTodoModal = () => {
         const taskdetails = {
             id: randomString,
             title: task,
-            description: description
+            description: description,
+            priority,
+            isCompleted: false
         }
-        dispatch(addTodo(taskdetails))
+        // for local state management
+        // dispatch(addTodo(taskdetails))
+        console.log('inside modal', taskdetails)
+        // for server
+        addTodo(taskdetails);
     }
 
     return (
@@ -52,6 +66,24 @@ const AddTodoModal = () => {
                             <Label htmlFor="description">Description</Label>
                             <Input onBlur={(e) => setDescription(e.target.value)} id="description" name="username" />
                         </div>
+                        <div className=" flex items-center gap-4 mb-4">
+                            <Label >Priority</Label>
+                            <div className="flex-1">
+                                <Select onValueChange={(value) => setPriority(value)}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select priority" />
+                                    </SelectTrigger>
+                                    <SelectContent >
+                                        <SelectGroup>
+                                            <SelectLabel>Priority</SelectLabel>
+                                            <SelectItem value="high">High</SelectItem>
+                                            <SelectItem value="medium">Medium</SelectItem>
+                                            <SelectItem value="low">Low</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
                     </div>
                     <div className='flex justify-end'>
                         <DialogClose asChild>
@@ -59,8 +91,8 @@ const AddTodoModal = () => {
                         </DialogClose>
                         <Button type="submit">Save changes</Button>
                     </div>
-                </form>
-            </DialogContent>
+                </form >
+            </DialogContent >
 
         </Dialog >
     );
